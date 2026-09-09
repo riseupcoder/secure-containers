@@ -1,0 +1,52 @@
+(typeattribute restricted_user_domains)
+
+(macro restrict_data_access
+    (
+        (type target)
+        (type container_process)
+        (name restricted_container_domains)
+    )
+
+    ;; ==========================================
+    ;; Container isolation
+    ;; ==========================================
+
+    (typeattribute restricted_container_domains)
+
+    (typeattributeset restricted_container_domains
+        (or
+            (and
+                container_domain
+                (not container_process)
+            )
+            spc_t
+        )
+    )
+
+    (deny restricted_container_domains target (dir (all)))
+    (deny restricted_container_domains target (file (all)))
+    (deny restricted_container_domains target (fifo_file (all)))
+    (deny restricted_container_domains target (sock_file (all)))
+    (deny restricted_container_domains target (lnk_file (all)))
+    (deny restricted_container_domains target (chr_file (all)))
+    (deny restricted_container_domains target (blk_file (all)))
+
+    ;; ==========================================
+    ;; User isolation
+    ;; ==========================================
+
+    (typeattributeset restricted_user_domains
+        (and
+            userdomain
+            (not user_t)
+        )
+    )
+
+    (deny restricted_user_domains target (dir (all)))
+    (deny restricted_user_domains target (file (all)))
+    (deny restricted_user_domains target (fifo_file (all)))
+    (deny restricted_user_domains target (sock_file (all)))
+    (deny restricted_user_domains target (lnk_file (all)))
+    (deny restricted_user_domains target (chr_file (all)))
+    (deny restricted_user_domains target (blk_file (all)))
+)

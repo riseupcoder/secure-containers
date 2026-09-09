@@ -1,0 +1,2 @@
+# idea_data.fc
+HOME_DIR/.containers/.idea(/.*)?    gen_context(user_u:object_r:idea_data_t,s0)

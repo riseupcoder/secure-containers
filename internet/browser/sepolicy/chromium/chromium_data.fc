@@ -1,0 +1,4 @@
+# chromium_data.fc
+HOME_DIR/.containers/.chromium(/.*)?    gen_context(user_u:object_r:chromium_data_t,s0)
+
+

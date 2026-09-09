@@ -1,0 +1,240 @@
+" =============================================================================
+" IdeaVim Configuration
+" IntelliJ IDEA 2026
+" Spring Boot Backend Development Edition
+" Pure IdeaVim (No plugins, No Git, No AI)
+" =============================================================================
+
+" =============================================================================
+" Leader
+" =============================================================================
+
+let mapleader = " "
+
+" =============================================================================
+" Core Settings
+" =============================================================================
+
+set number
+set relativenumber
+
+set ignorecase
+set smartcase
+set incsearch
+
+set scrolloff=8
+
+set showmode
+
+set ideajoin
+set ideaput
+set ideamarks
+
+set clipboard+=unnamed
+
+set visualbell
+
+" =============================================================================
+" Better Escape
+" =============================================================================
+
+imap jj <Esc>
+
+" =============================================================================
+" Save
+" =============================================================================
+
+map <leader>w <Action>(SaveAll)
+
+" =============================================================================
+" Search
+" =============================================================================
+
+map <leader>ss <Action>(SearchEverywhere)
+
+map <leader>sf <Action>(GotoFile)
+
+map <leader>sc <Action>(GotoClass)
+
+map <leader>sy <Action>(GotoSymbol)
+
+map <leader>sr <Action>(RecentFiles)
+
+map <leader>sl <Action>(RecentLocations)
+
+map <leader>sg <Action>(FindInPath)
+
+map <leader>sn <Action>(Find)
+
+" =============================================================================
+" Navigation
+" =============================================================================
+
+map gd <Action>(GotoDeclaration)
+
+map gi <Action>(GotoImplementation)
+
+map gt <Action>(GotoTypeDeclaration)
+
+map gs <Action>(GotoSuperMethod)
+
+map gu <Action>(FindUsages)
+
+map K <Action>(QuickJavaDoc)
+
+map <C-o> <Action>(Back)
+
+map <C-i> <Action>(Forward)
+
+" =============================================================================
+" Code
+" =============================================================================
+
+map <leader>cf <Action>(ReformatCode)
+
+map <leader>co <Action>(OptimizeImports)
+
+map <leader>cc <Action>(CommentByLineComment)
+
+map <leader>ca <Action>(Generate)
+
+map <leader>ci <Action>(InspectCode)
+
+map <leader>ch <Action>(QuickJavaDoc)
+
+" =============================================================================
+" Refactoring
+" =============================================================================
+
+map <leader>rr <Action>(RenameElement)
+
+map <leader>rm <Action>(ExtractMethod)
+
+map <leader>rv <Action>(IntroduceVariable)
+
+map <leader>rf <Action>(IntroduceField)
+
+map <leader>rc <Action>(ChangeSignature)
+
+map <leader>ri <Action>(Inline)
+
+map <leader>rs <Action>(SafeDelete)
+
+" =============================================================================
+" Spring Boot
+" =============================================================================
+
+map <leader>ba <Action>(Run)
+
+map <leader>bc <Action>(ChooseRunConfiguration)
+
+map <leader>be <Action>(Endpoints)
+
+" =============================================================================
+" Testing
+" =============================================================================
+
+map <leader>tr <Action>(Run)
+
+map <leader>td <Action>(Debug)
+
+map <leader>tl <Action>(Rerun)
+
+map <leader>tc <Action>(Coverage)
+
+" =============================================================================
+" Run / Build
+" =============================================================================
+
+map <leader>xr <Action>(Run)
+
+map <leader>xd <Action>(Debug)
+
+map <leader>xs <Action>(Stop)
+
+map <leader>xb <Action>(BuildProject)
+
+map <leader>xo <Action>(CompileDirty)
+
+" =============================================================================
+" Debug
+" =============================================================================
+
+map <leader>db <Action>(ToggleLineBreakpoint)
+
+map <leader>dc <Action>(RunToCursor)
+
+map <leader>dn <Action>(StepOver)
+
+map <leader>di <Action>(StepInto)
+
+map <leader>do <Action>(StepOut)
+
+map <leader>dr <Action>(Resume)
+
+map <leader>de <Action>(EvaluateExpression)
+
+" =============================================================================
+" Maven / Gradle
+" =============================================================================
+
+map <leader>mr <Action>(ReloadAllMavenProjects)
+
+map <leader>mg <Action>(RefreshAllExternalProjects)
+
+" =============================================================================
+" Windows
+" =============================================================================
+
+map <leader>wv <Action>(SplitVertically)
+
+" map <leader>wh <Action>(SplitHorizontally)
+
+map <leader>wq <Action>(CloseContent)
+
+nmap <C-h> <C-w>h
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+nmap <C-l> <C-w>l
+
+" =============================================================================
+" Tabs
+" =============================================================================
+
+map <leader>1 <Action>(SelectNextTab)
+
+map <leader>2 <Action>(SelectPreviousTab)
+
+" =============================================================================
+" Terminal
+" =============================================================================
+
+map <leader>tt <Action>(ActivateTerminalToolWindow)
+
+" =============================================================================
+" Bookmarks
+" =============================================================================
+
+map <leader>mm <Action>(ToggleBookmark)
+
+map <leader>mn <Action>(NextBookmark)
+
+map <leader>mp <Action>(PreviousBookmark)
+
+" =============================================================================
+" Convenience
+" =============================================================================
+
+map <leader>qq <Action>(CloseContent)
+
+map <leader>ee <Action>(ShowErrorDescription)
+
+map <leader>aa <Action>(ShowIntentionActions)
+
+map <leader>pp <Action>(ParameterInfo)
+
+" =============================================================================
+" Reload .ideavimrc
+" =============================================================================
+
+map <leader>sv :source ~/.ideavimrc<CR>

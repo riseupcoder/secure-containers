@@ -1,0 +1,22 @@
+FROM alpine:latest
+
+# Install essential packages
+RUN apk add keepassxc qt6-qtwayland font-carlito
+
+RUN fc-cache -fv
+
+# Upgrade packages
+ARG CACHE_BUST=1
+RUN apk upgrade
+
+# Create non-root user
+ARG UID=1000
+ARG GID=1000
+
+RUN addgroup -g "$GID" user 2>/dev/null || true && \
+    adduser -u "$UID" -g "$GID" -D -S -h /home/user user
+
+USER user
+WORKDIR /home/user
+
+CMD [ "sh", "-c", "env && keepassxc" ]

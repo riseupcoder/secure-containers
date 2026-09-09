@@ -1,0 +1,27 @@
+(block selinux-keepassxc
+    (blockinherit container)
+
+    (allow process keepassxc_data_t ( dir ( add_name create getattr open read remove_name rmdir search setattr write ))) 
+    (allow process keepassxc_data_t ( file ( append create getattr lock map open read rename setattr link unlink write ))) 
+
+    ;; Note: You can comment these 4 lines from below if you want so that no user can 
+    ;; access your keepassxc data except your keepassxc container    
+
+    (allow user_t keepassxc_data_t ( dir ( add_name create getattr open read remove_name rmdir search setattr write ))) 
+
+    (allow user_t keepassxc_data_t ( file ( append create getattr map open read rename setattr link unlink write ))) 
+
+    (allow process container_file_t ( dir ( getattr open read search ))) 
+    (allow process container_file_t ( file ( getattr open read ))) 
+
+    (allow process user_t
+      (unix_stream_socket (connectto)))
+     
+    (allow process user_tmp_t
+      (file ( map )))
+
+    (allow process tmpfs_t
+      (file ( map )))
+    
+    (call restrict_data_access(keepassxc_data_t process restrict_keepassxc))
+)

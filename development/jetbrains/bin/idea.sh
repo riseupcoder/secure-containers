@@ -1,0 +1,25 @@
+podman run --rm \
+  --name spring \
+  --net springboot-net \
+  --read-only \
+  --cap-drop=ALL \
+  --security-opt no-new-privileges \
+  --security-opt label=type:selinux-idea.process \
+  --device=/dev/dri \
+  --device=/dev/dri/renderD128 \
+  -e XDG_RUNTIME_DIR=/run/user/$(id -u) \
+  -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
+  -v /run/user/$(id -u)/$WAYLAND_DISPLAY:/run/user/$(id -u)/$WAYLAND_DISPLAY:ro,Z \
+  -v $HOME/.containers/.idea/idea:/home/user/idea:ro \
+  -v $HOME/.containers/.idea/.config:/home/user/.config:rw \
+  -v $HOME/.containers/.idea/.cache:/home/user/.cache:rw \
+  -v $HOME/.containers/.idea/.local:/home/user/.local:rw \
+  -v $HOME/.containers/.idea/projects:/home/user/projects:rw \
+  -v $HOME/.containers/.idea/.java:/home/user/.java/:rw \
+  -v $HOME/.containers/.idea/.m2:/home/user/.m2:rw \
+  -v $HOME/.containers/.idea/.gradle:/home/user/.gradle:rw \
+  -v $HOME/.containers/.idea/.jdks:/home/user/.jdks:rw \
+  -v $HOME/.containers/.idea/.ideavimrc:/home/user/.ideavimrc:ro \
+  --shm-size=1g \
+  --userns=keep-id \
+  idea

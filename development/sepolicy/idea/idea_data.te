@@ -1,0 +1,4 @@
+policy_module(idea_data, 1.0)
+
+type idea_data_t;
+files_type(idea_data_t)

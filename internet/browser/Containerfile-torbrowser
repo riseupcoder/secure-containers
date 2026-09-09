@@ -1,0 +1,70 @@
+# Stage 1: Builder
+FROM fedora-minimal:latest AS builder
+
+RUN echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
+
+# Install build-time dependencies
+RUN microdnf install -y tar curl xz gnupg2 &&  microdnf clean all
+
+# Create non-root user
+ARG UID=1000
+ARG GID=1000
+
+RUN groupadd -g "$GID" user \
+    && useradd -m -u "$UID" -g "$GID" user
+
+USER user
+WORKDIR /home/user
+
+# Download, Verify (Official WKD method), and Extract
+RUN VERSION=$(curl -fsSL https://dist.torproject.org/torbrowser/ | grep -oE 'href="[0-9]+\.[0-9]+\.[0-9]+/' | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | sort -V | tail -1) && \
+    BASE_URL="https://dist.torproject.org/torbrowser/${VERSION}" && \
+    FILE="tor-browser-linux-x86_64-${VERSION}.tar.xz" && \
+    echo "Downloading Tor Browser ${VERSION}..." && \
+    curl -fLO "${BASE_URL}/${FILE}" && \
+    curl -fLO "${BASE_URL}/${FILE}.asc" && \
+    echo "Fetching signing key..." && \
+    gpg --auto-key-locate nodefault,wkd --locate-keys torbrowser@torproject.org && \
+    gpg --output ./tor.keyring --export 0xEF6E286DDA85EA2A4BA7DE684E2C6E8793298290 && \
+    echo "Verifying signature..." && \
+    if gpgv --keyring ./tor.keyring "${FILE}.asc" "${FILE}"; then \
+        echo "Signature valid. Extracting..." && \
+        tar -xf "${FILE}" && \
+        rm -f "${FILE}" "${FILE}.asc" ./tor.keyring; \
+    else \
+        echo "CRITICAL: Signature verification FAILED! Aborting build." && \
+        exit 1; \
+    fi
+
+# Stage 2: Runtime
+# Fresh minimal image containing ONLY the extracted browser and runtime libs
+FROM fedora-minimal:latest
+
+RUN echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
+
+# Install ONLY runtime GUI dependencies
+RUN microdnf install -y  \
+    mesa-dri-drivers libavcodec-free pipewire mesa-libEGL gtk3 && \
+    microdnf clean all
+
+# Upgrade packages
+ARG CACHE_BUST=1
+RUN microdnf update -y && \
+    microdnf upgrade -y && \
+    microdnf clean all
+
+# Create non-root user
+ARG UID=1000
+ARG GID=1000
+
+RUN groupadd -g "$GID" user \
+    && useradd -m -u "$UID" -g "$GID" user
+
+COPY --from=builder --chown=user:user /home/user/tor-browser /home/user/tor-browser
+
+RUN printf '#!/bin/sh\necho "bwrap: setting up uid map: Permission denied" >&2\nexit 1\n' > /usr/bin/bwrap && chmod +x /usr/bin/bwrap
+
+USER user
+WORKDIR /home/user
+
+CMD [ "sh", "-c", "env && /home/user/tor-browser/Browser/start-tor-browser" ]

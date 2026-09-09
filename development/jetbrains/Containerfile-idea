@@ -1,0 +1,32 @@
+FROM fedora-minimal:latest
+
+RUN echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
+
+# Install essential packages
+RUN microdnf update -y && \
+    microdnf install -y \
+        mesa-dri-drivers mesa-vulkan-drivers mesa-libEGL mesa-libgbm \
+        e2fsprogs libwayland-cursor libwayland-client libwayland-egl \
+        libxkbcommon fontconfig freetype && \
+    microdnf clean all
+
+# Upgrade packages
+ARG CACHE_BUST=1
+RUN microdnf update -y && microdnf upgrade -y && microdnf clean all
+
+# Create non-root user
+ARG UID=1000
+ARG GID=1000
+
+RUN groupadd -g "$GID" user \
+    && useradd -m -u "$UID" -g "$GID" user
+
+USER user
+ENV HOME=/home/user
+WORKDIR /home/user
+
+ENV _JAVA_AWT_WM_NONREPARENTING=1
+ENV GDK_BACKEND=wayland
+ENV QT_QPA_PLATFORM=wayland
+
+CMD [ "sh", "-c", "env && /home/user/idea/bin/idea" ]

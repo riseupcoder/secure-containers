@@ -1,0 +1,33 @@
+FROM alpine:latest
+
+# Install essential packages
+
+RUN apk add mesa-dri-gallium nnn imv-wayland sioyek xdg-utils font-carlito
+
+# Upgrade packages
+ARG CACHE_BUST=1
+RUN apk upgrade
+
+RUN fc-cache -fv
+
+# Create non-root user
+ARG UID=1000
+ARG GID=1000
+
+RUN addgroup -g "$GID" user 2>/dev/null || true && \
+    adduser -u "$UID" -g "$GID" -D -S -h /home/user user
+
+RUN mkdir -p /home/user/.config && \
+    cat > /home/user/.config/mimeapps.list <<'EOF'
+[Default Applications]
+application/pdf=sioyek.desktop
+image/jpeg=imv.desktop
+image/png=imv.desktop
+image/gif=imv.desktop
+image/webp=imv.desktop
+EOF
+
+RUN chown -R user:user /home/user
+
+USER user
+WORKDIR /home/user

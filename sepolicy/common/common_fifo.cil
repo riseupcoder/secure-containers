@@ -1,0 +1,19 @@
+(typeattribute container_clipboard_access)
+
+(typeattributeset container_clipboard_access
+    (selinux-chromium.process
+     selinux-keepassxc.process
+     selinux-mullvadbrowser.process
+     selinux-yaak.process
+     selinux-idea.process
+     selinux-mpv.process
+     selinux-superproductivity.process
+     selinux-pdf.process
+     selinux-foliate.process
+     user_t
+    )
+)
+
+(allow container_clipboard_access container_clipboard_access
+    (fifo_file (write))
+)

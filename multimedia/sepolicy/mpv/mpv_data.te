@@ -1,0 +1,4 @@
+policy_module(mpv_data, 1.0)
+
+type mpv_data_t;
+files_type(mpv_data_t)

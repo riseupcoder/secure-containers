@@ -1,0 +1,4 @@
+policy_module(chromium_data, 1.0)
+
+type chromium_data_t;
+files_type(chromium_data_t)

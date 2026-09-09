@@ -1,0 +1,48 @@
+FROM fedora-minimal:latest
+
+RUN echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
+
+# Install essential packages
+RUN microdnf update -y && \
+    microdnf install -y \
+        libavcodec-free mesa-dri-drivers gtk3 \
+        pipewire chromium mesa-libEGL mesa-libgbm && \ 
+    microdnf clean all
+
+# Upgrade packages
+ARG CACHE_BUST=1
+RUN microdnf update -y && \
+    microdnf upgrade -y && \
+    microdnf clean all
+
+# 1. Setup Policy Directory
+# Chromium on Linux reads policies from /etc/chromium/policies/managed/
+RUN mkdir -p /etc/chromium/policies/managed
+
+COPY policy/80-hardening-guide-policy.json /etc/chromium/policies/managed/
+COPY flags/80-hardening-guide-flags.conf /etc/chromium/
+
+RUN chmod 444 /etc/chromium/policies/managed/80-hardening-guide-policy.json && \
+    chmod 444 /etc/chromium/80-hardening-guide-flags.conf
+
+# Create a wrapper script to inject flags at runtime
+# This reads the flags file and passes them to the chromium binary
+RUN echo '#!/bin/bash' > /usr/local/bin/chromium-hardened && \
+    echo 'exec chromium-browser $(cat /etc/chromium/80-hardening-guide-flags.conf | xargs) "$@"' >> /usr/local/bin/chromium-hardened && \
+    chmod +x /usr/local/bin/chromium-hardened
+
+# Create non-root user
+ARG UID=1000
+ARG GID=1000
+
+RUN groupadd -g "$GID" user \
+    && useradd -m -u "$UID" -g "$GID" user
+
+RUN printf '#!/bin/sh\necho "bwrap: setting up uid map: Permission denied" >&2\nexit 1\n' > /usr/bin/bwrap && chmod +x /usr/bin/bwrap
+
+USER user
+ENV HOME=/home/user
+WORKDIR /home/user
+
+# Use the hardened wrapper as the default command
+CMD ["chromium-hardened"]

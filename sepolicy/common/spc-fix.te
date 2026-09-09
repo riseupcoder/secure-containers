@@ -1,0 +1,11 @@
+
+module spc-fix 1.0;
+
+require {
+	type user_t;
+	type spc_t;
+	class fifo_file write;
+}
+
+#============= user_t ==============
+allow user_t spc_t:fifo_file write;

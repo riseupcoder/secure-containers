@@ -1,0 +1,4 @@
+# superproductivity_data.fc
+HOME_DIR/.containers/.superproductivity(/.*)?    gen_context(user_u:object_r:superproductivity_data_t,s0)
+
+

@@ -1,0 +1,4 @@
+policy_module(mullvadbrowser_data, 1.0)
+
+type mullvadbrowser_data_t;
+files_type(mullvadbrowser_data_t)

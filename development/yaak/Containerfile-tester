@@ -1,0 +1,43 @@
+FROM fedora-minimal:latest
+
+RUN echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
+
+# Install essential packages
+RUN microdnf install -y curl jq && \
+    microdnf clean all
+
+# Upgrade packages
+ARG CACHE_BUST=1
+RUN microdnf update -y && \
+    microdnf upgrade -y && \
+    microdnf clean all
+
+# Create non-root user
+ARG UID=1000
+ARG GID=1000
+
+RUN groupadd -g "$GID" user \
+    && useradd -m -u "$UID" -g "$GID" user
+
+RUN if [ ! -s /tmp/yaak.rpm ] || file /tmp/yaak.rpm | grep -q "HTML"; then \
+      rm -f /tmp/yaak.rpm && \
+      curl -s https://api.github.com/repos/mountain-loop/yaak/releases/latest | \
+      grep -oP '"browser_download_url": "\K[^"]*\.x86_64\.rpm' | \
+      head -1 | \
+      xargs curl -L -o /tmp/yaak.rpm; \
+    fi
+
+RUN microdnf install -y /tmp/yaak.rpm && \
+    rm /tmp/yaak.rpm && microdnf clean all
+
+# Note: Only enable this below RUN command when you need export and import functionality 
+# from yaak. When you are finished with importing the data and you are sure you don't need that # export and import functionality often then please comment this below line and build the contai# ner file again
+
+RUN printf '#!/bin/sh\necho "bwrap: setting up uid map: Permission denied" >&2\nexit 1\n' > /usr/bin/bwrap && chmod +x /usr/bin/bwrap
+
+RUN chown -R user:user /home/user
+
+USER user
+WORKDIR /home/user
+
+CMD [ "sh", "-c", "env && yaak-app-client" ]

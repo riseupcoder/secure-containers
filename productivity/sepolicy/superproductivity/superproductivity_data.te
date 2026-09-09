@@ -1,0 +1,4 @@
+policy_module(superproductivity_data, 1.0)
+
+type superproductivity_data_t;
+files_type(superproductivity_data_t)

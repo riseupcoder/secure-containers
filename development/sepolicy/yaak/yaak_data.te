@@ -1,0 +1,4 @@
+policy_module(yaak_data, 1.0)
+
+type yaak_data_t;
+files_type(yaak_data_t)

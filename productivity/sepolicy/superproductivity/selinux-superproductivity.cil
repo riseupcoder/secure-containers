@@ -1,0 +1,25 @@
+(block selinux-superproductivity
+    (blockinherit container)
+
+    (allow process superproductivity_data_t ( dir ( add_name create getattr open read remove_name rmdir search setattr write ))) 
+    (allow process superproductivity_data_t ( file ( append create getattr lock map open read rename setattr unlink write ))) 
+
+    (allow user_t superproductivity_data_t ( dir ( add_name getattr open read search write rmdir remove_name setattr ))) 
+    (allow user_t superproductivity_data_t ( file ( getattr create open read write rename setattr unlink ))) 
+
+    (allow process superproductivity_data_t ( lnk_file ( create read unlink )))
+
+    (allow process container_file_t ( dir ( getattr open read search ))) 
+    (allow process container_file_t ( file ( getattr open read ))) 
+
+    (allow process user_t
+      (unix_stream_socket (connectto)))
+     
+    (allow process user_tmp_t
+      (file ( map )))
+     
+    (allow process tmpfs_t
+      (file (map)))
+
+    (call restrict_data_access (superproductivity_data_t process restrict_superproductivity))
+)

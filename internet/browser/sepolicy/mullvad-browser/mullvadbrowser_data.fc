@@ -1,0 +1,2 @@
+# mullvadbrowser_data.fc
+HOME_DIR/.containers/.mullvad(/.*)?    gen_context(user_u:object_r:mullvadbrowser_data_t,s0)

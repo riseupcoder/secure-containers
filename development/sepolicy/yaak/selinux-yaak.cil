@@ -1,0 +1,41 @@
+(block selinux-yaak
+    (blockinherit container)
+
+    (allow process yaak_data_t ( dir ( add_name create getattr open read remove_name rmdir search setattr write watch ))) 
+    (allow process yaak_data_t ( file ( append create getattr lock map open read rename link setattr unlink write ))) 
+
+    (allow user_t yaak_data_t ( dir ( add_name create getattr open read remove_name rmdir search setattr write ))) 
+    (allow user_t yaak_data_t ( file ( create getattr open read rename setattr unlink write ))) 
+
+    (allow process container_file_t ( dir ( getattr open read search ))) 
+    (allow process container_file_t ( file ( getattr open read ))) 
+        
+    (allow process user_t
+      (unix_stream_socket (connectto)))
+
+    (allow process user_tmp_t
+      (file (map)))
+
+    (allow process tmpfs_t
+      (file (map)))
+    
+    (allow process node_t
+      (tcp_socket ( node_bind )))
+    
+    (allow process self
+      (tcp_socket ( listen )))
+
+    (typeattribute non_reserved_port_type)
+
+    (typeattributeset non_reserved_port_type
+      (and
+          (port_type)
+          (not ( reserved_port_t hi_reserved_port_t ssh_port_t ftp_port_t smtp_port_t))
+      )
+    )
+
+    (allow process non_reserved_port_type
+      (tcp_socket (name_connect)))
+
+    (call restrict_data_access ( yaak_data_t process restricted_yaak ))
+)

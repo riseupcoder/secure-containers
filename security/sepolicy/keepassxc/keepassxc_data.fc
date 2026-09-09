@@ -1,0 +1,2 @@
+# keepass_data.fc
+HOME_DIR/.containers/.keepassxc(/.*)?    gen_context(user_u:object_r:keepassxc_data_t,s0)

@@ -1,0 +1,4 @@
+policy_module(keepassxc_data, 1.0)
+
+type keepassxc_data_t;
+files_type(keepassxc_data_t)

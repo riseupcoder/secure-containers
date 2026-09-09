@@ -1,0 +1,29 @@
+(block selinux-mpv
+    (blockinherit container)
+
+    (allow process mpv_data_t ( dir ( add_name create getattr open read remove_name rmdir search setattr write watch ))) 
+    (allow process mpv_data_t ( file ( append create getattr map open read rename setattr unlink write ))) 
+
+    ;; uncomment the below code if you want to change the mpv configuration. 
+    ;; Without it no user can access mpv dir except the mpv container
+        
+    ;; (allow user_t mpv_data_t ( dir ( add_name create getattr open read remove_name rmdir search setattr write watch ))) 
+    ;; (allow user_t mpv_data_t ( file ( append create getattr map open read rename setattr unlink write ))) 
+
+    (allow process container_file_t ( dir ( getattr open read search ))) 
+    (allow process container_file_t ( file ( getattr open read ))) 
+
+    (allow process mnt_t ( dir ( getattr open read search ))) 
+    (allow process mnt_t ( file ( getattr open read ))) 
+ 
+    (allow process user_t
+      (unix_stream_socket (connectto)))
+    
+    (allow process user_tmp_t
+      (file (map)))
+    
+    (allow process tmpfs_t
+      (file (map)))
+
+    (call restrict_data_access(mpv_data_t process restrict_mpv))
+)

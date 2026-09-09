@@ -1,0 +1,39 @@
+FROM fedora-minimal:latest
+
+RUN echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
+
+# Install essential packages
+RUN microdnf install -y curl jq pipewire mesa-dri-drivers mesa-libEGL mesa-libgbm  && \
+    microdnf clean all
+
+# Upgrade packages
+ARG CACHE_BUST=1
+RUN microdnf update -y && \
+    microdnf upgrade -y && \
+    microdnf clean all
+# Create non-root user
+ARG UID=1000
+ARG GID=1000
+
+RUN groupadd -g "$GID" user \
+    && useradd -m -u "$UID" -g "$GID" user
+
+RUN if [ ! -s /tmp/super_productivity.rpm ] || file /tmp/super_productivity.rpm | grep -q "HTML"; then \
+      rm -f /tmp/super_productivity.rpm && \
+      curl -s https://api.github.com/repos/super-productivity/super-productivity/releases/latest | \
+      grep -oP '"browser_download_url": "\K[^"]*\-x86_64\.rpm' | \
+      head -1 | \
+      xargs curl -L -o /tmp/super_productivity.rpm; \
+    fi
+
+RUN microdnf install -y /tmp/super_productivity.rpm && \
+    rm /tmp/super_productivity.rpm && microdnf remove -y jq && microdnf clean all
+
+RUN printf '#!/bin/sh\necho "bwrap: setting up uid map: Permission denied" >&2\nexit 1\n' > /usr/bin/bwrap && chmod +x /usr/bin/bwrap
+
+RUN chown -R user:user /home/user
+
+USER user
+WORKDIR /home/user
+
+CMD [ "sh", "-c", "env && superproductivity --ozone-platform=wayland --no-sandbox" ]

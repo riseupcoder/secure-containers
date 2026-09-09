@@ -1,0 +1,2 @@
+# mpv_data.fc
+HOME_DIR/.containers/.mpv(/.*)?    gen_context(user_u:object_r:mpv_data_t,s0)

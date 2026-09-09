@@ -1,0 +1,25 @@
+FROM fedora-minimal:latest
+
+RUN echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
+
+# Install essential packages
+RUN microdnf update -y \
+    && microdnf install -y git \ 
+    && microdnf clean all
+
+# Upgrade packages
+ARG CACHE_BUST=1
+RUN microdnf update -y \
+    && microdnf upgrade -y \
+    && microdnf clean all
+
+# Create non-root user
+ARG UID=1000
+ARG GID=1000
+
+RUN groupadd -g "$GID" user \
+    && useradd -m -u "$UID" -g "$GID" user
+
+USER user
+ENV HOME=/home/user
+WORKDIR /home/user

@@ -1,0 +1,4 @@
+policy_module(foliate_data, 1.0)
+
+type foliate_data_t;
+files_type(foliate_data_t)
