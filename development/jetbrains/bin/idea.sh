@@ -9,7 +9,7 @@ podman run --rm \
   --device=/dev/dri/renderD128 \
   -e XDG_RUNTIME_DIR=/run/user/$(id -u) \
   -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
-  -v /run/user/$(id -u)/$WAYLAND_DISPLAY:/run/user/$(id -u)/$WAYLAND_DISPLAY:ro,Z \
+  -v /run/user/$(id -u)/$WAYLAND_DISPLAY:/run/user/$(id -u)/$WAYLAND_DISPLAY:ro \
   -v $HOME/.containers/.idea/idea:/home/user/idea:ro \
   -v $HOME/.containers/.idea/.config:/home/user/.config:rw \
   -v $HOME/.containers/.idea/.cache:/home/user/.cache:rw \

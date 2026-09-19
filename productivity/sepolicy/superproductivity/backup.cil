@@ -9,9 +9,17 @@
 
     (allow process superproductivity_data_t ( lnk_file ( create read unlink )))
 
-    (allow process tmpfs_t (file (map)))
+    (allow process container_file_t ( dir ( getattr open read search ))) 
+    (allow process container_file_t ( file ( getattr open read ))) 
 
-    (typeattributeset wayland_client (process))
+    (allow process user_t
+      (unix_stream_socket (connectto)))
+     
+    (allow process user_tmp_t
+      (file ( map )))
+     
+    (allow process tmpfs_t
+      (file (map)))
 
     (call restrict_data_access (superproductivity_data_t process restrict_superproductivity))
 )

@@ -130,9 +130,6 @@ main() {
 
     run_installation
 
-    install_selinux_cil "$ROOT_DIR/sepolicy/common/common_fifo.cil"
-    install_selinux_policy "user_fix" "$ROOT_DIR/sepolicy/common/"
-
     success "Setup completed"
 }
 

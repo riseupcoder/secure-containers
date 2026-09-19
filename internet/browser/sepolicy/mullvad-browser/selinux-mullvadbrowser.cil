@@ -8,21 +8,31 @@
     (allow user_t mullvadbrowser_data_t ( file ( append create getattr map open read rename setattr unlink write ))) 
 
     (allow process mullvadbrowser_data_t ( lnk_file ( create read unlink )))
+
+    (allow process user_t (unix_stream_socket (connectto)))
+  
+    (allow process tmpfs_t (file (map)))
  
-    (allow process user_tmp_t
-      (file (map)))
-
-    (allow process tmpfs_t
-      (file (map)))
-
-    (allow process http_port_t
-      ( tcp_socket ( name_connect )))
+    (allow process http_port_t ( tcp_socket ( name_connect )))
 
     (allow process container_file_t ( dir ( getattr open read search ))) 
     (allow process container_file_t ( file ( getattr open read ))) 
 
-    (allow process user_t
-      (unix_stream_socket (connectto)))
+    ;; The below code is for my backend development purpose only.
+    ;; For general purpose browser usecase you should remove these below lines from start to end
+
+    ;; START
+    (typeattribute non_reserved_port_type)
+
+    (typeattributeset non_reserved_port_type
+      (and (port_type)
+          (not ( reserved_port_t hi_reserved_port_t ssh_port_t ftp_port_t smtp_port_t)))
+    )
+
+    (allow process non_reserved_port_type (tcp_socket (name_connect name_bind)))
+    ;; END 
+
+    (typeattributeset wayland_client (process))
 
     (call restrict_data_access(mullvadbrowser_data_t process restricted_mullvadbrowser))
 )

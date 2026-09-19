@@ -7,27 +7,18 @@
     ;; Note: By default no one can access foliate dir except foliate container
     ;; No users can look at what books you read :)
     
-    ;; If you want user_t to access the dir and its contents uncomment this multiline 
-    ;; comment block
+    ;; If you want the user_t to access the dir and its contents uncomment ';' the below 2 lines
 
     ;; (allow user_t foliate_data_t ( dir ( add_name create getattr open read remove_name rmdir search write watch ))) 
 
     ;; (allow user_t foliate_data_t ( file ( append create getattr map open read rename setattr unlink write ))) 
 
-    (allow process container_file_t ( dir ( getattr open read search ))) 
-    (allow process container_file_t ( file ( getattr open read ))) 
-
     (allow process mnt_t ( dir ( getattr open read search ))) 
     (allow process mnt_t ( file ( getattr open read ))) 
 
-    (allow process user_t
-      (unix_stream_socket (connectto)))
+    (allow process tmpfs_t (file ( map )))
 
-    (allow process user_tmp_t
-      (file ( map )))
+    (typeattributeset wayland_client (process))
 
-    (allow process tmpfs_t
-      (file ( map )))
-
-   (call restrict_data_access ( foliate_data_t process restrict_foliate ))
+    (call restrict_data_access ( foliate_data_t process restrict_foliate ))
 ) 

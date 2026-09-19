@@ -10,7 +10,7 @@ readonly MISC_DIR="$PWD/utilities"
 
 CONTAINER_IMAGES=(
     "$MISC_DIR/rar/Containerfile-rar:extract-rar"
-    "$MISC_DIR/git/Containerfile-github:github"
+    "$MISC_DIR/git/Containerfile-git:github"
 )
 
 for image in "${CONTAINER_IMAGES[@]}"; do

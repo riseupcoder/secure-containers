@@ -4,7 +4,7 @@ RUN echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
 
 # Install essential packages
 RUN microdnf update -y \
-    && microdnf install -y git \ 
+    && microdnf install -y git vi \ 
     && microdnf clean all
 
 # Upgrade packages

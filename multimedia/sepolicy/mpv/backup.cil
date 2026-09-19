@@ -16,9 +16,14 @@
     (allow process mnt_t ( dir ( getattr open read search ))) 
     (allow process mnt_t ( file ( getattr open read ))) 
  
-    (allow process user_t ( unix_stream_socket ( connectto )))
-
-    (typeattributeset wayland_client (process))
+    (allow process user_t
+      (unix_stream_socket (connectto)))
     
+;;    (allow process user_tmp_t
+;;      (file (map)))
+    
+;;    (allow process tmpfs_t
+;;      (file (map)))
+
     (call restrict_data_access(mpv_data_t process restrict_mpv))
 )
