@@ -11,11 +11,15 @@ source "$ROOT_DIR/lib/selinux.sh"
 
 declare -a SELECTED
 
+readonly MAX_PARALLEL_JOBS="${MAX_PARALLEL_JOBS:-3}"
+
+
 load_modules() {
     local environment name script function
 
     for environment in "${ENVIRONMENTS[@]}"; do
         IFS='|' read -r name script function <<< "$environment"
+
         source "$ROOT_DIR/$script"
 
         if ! declare -F "$function" >/dev/null; then
@@ -24,6 +28,7 @@ load_modules() {
         fi
     done
 }
+
 
 select_environments() {
     local input number index
@@ -48,7 +53,7 @@ select_environments() {
 
     echo
     echo "Unselect the environments you don't need"
-    echo "by entering their number seperated by space, then press ENTER"
+    echo "by entering their number separated by space, then press ENTER"
     echo "to install the selected environments."
     echo "eg. 1 2 5"
     echo
@@ -65,6 +70,7 @@ select_environments() {
         fi
     done
 }
+
 
 show_summary() {
     local index name
@@ -85,6 +91,7 @@ show_summary() {
     echo
 }
 
+
 confirm() {
     local answer
 
@@ -94,21 +101,57 @@ confirm() {
 }
 
 
+run_environment() {
+    local name="$1"
+    local function="$2"
+
+    echo
+    echo "===================================="
+    echo " Running $name"
+    echo "===================================="
+
+    "$function"
+}
+
+
 run_installation() {
-    local environment name script function index
+    local name script function index
+    local running=0
+    local failed=0
 
     for index in "${!ENVIRONMENTS[@]}"; do
         ((SELECTED[index])) || continue
 
         IFS='|' read -r name script function <<< "${ENVIRONMENTS[index]}"
 
-        echo
-        echo "===================================="
-        echo " Running $name"
-        echo "===================================="
+        run_environment "$name" "$function" &
 
-        "$function"
+        ((running++))
+
+        # Keep MAX_PARALLEL_JOBS environments running.
+        # When one finishes, immediately start the next.
+        if ((running >= MAX_PARALLEL_JOBS)); then
+            if ! wait -n; then
+                failed=1
+            fi
+
+            ((running--))
+        fi
     done
+
+    # Wait for the remaining environments.
+    while ((running > 0)); do
+        if ! wait -n; then
+            failed=1
+        fi
+
+        ((running--))
+    done
+
+    if ((failed)); then
+        error "One or more environments failed"
+        return 1
+    fi
 }
 
 
@@ -118,6 +161,7 @@ main() {
     doas dnf install -y selinux-policy-devel udica
 
     load_modules
+
     select_environments
     show_summary
 
@@ -126,7 +170,8 @@ main() {
         exit 0
     fi
 
-    install_selinux_cil "$ROOT_DIR/sepolicy/common/restrict_data.cil"
+    install_selinux_cil \
+        "$ROOT_DIR/sepolicy/common/restrict_data.cil"
 
     run_installation
 
@@ -135,3 +180,4 @@ main() {
 
 
 main "$@"
+
