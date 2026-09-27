@@ -37,7 +37,7 @@ secpolicy_mpv() {
     install_selinux_cil "$MM_SECPOLICY_DIR/mpv/selinux-mpv.cil"
 }
 
-setup_multimedia_selinux() {
+install_multimedia_sepolicy() {
     secpolicy_mpv
 }
 
@@ -45,6 +45,5 @@ setup_multimedia_environment() {
     setup_multimedia_images
     setup_mpv_dirs
     install_mpv_bin
-    setup_multimedia_selinux
 }
 

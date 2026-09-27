@@ -46,7 +46,7 @@ secpolicy_mullvadbrowser() {
     install_selinux_cil "$BROWSER_SECPOLICY_DIR/mullvad-browser/selinux-mullvadbrowser.cil"
 }
 
-setup_browser_selinux() {
+install_browser_sepolicy() {
     secpolicy_chromium
     secpolicy_mullvadbrowser
 }
@@ -55,6 +55,5 @@ setup_browser_environment() {
     setup_browser_images
     setup_browser_dirs
     install_browser_bins
-    setup_browser_selinux
 }
 

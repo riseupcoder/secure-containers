@@ -35,7 +35,7 @@ secpolicy_superproductivity() {
     install_selinux_cil "$PRODUCTIVITY_SECPOLICY_DIR/superproductivity/selinux-superproductivity.cil"
 }
 
-setup_productivity_selinux() {
+install_productivity_sepolicy() {
     secpolicy_superproductivity
 }
 
@@ -43,6 +43,5 @@ setup_productivity_environment() {
     setup_productivity_images
     setup_superproductivity_dirs
     install_superproductivity_bin
-    setup_productivity_selinux
 }
 

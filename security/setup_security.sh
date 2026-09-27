@@ -36,7 +36,7 @@ secpolicy_keepassxc() {
     install_selinux_cil "$SECURITY_SECPOLICY_DIR/keepassxc/selinux-keepassxc.cil"
 }
 
-setup_security_selinux() {
+install_security_sepolicy() {
     secpolicy_keepassxc
 }
 
@@ -44,6 +44,5 @@ setup_security_environment() {
     setup_security_images
     setup_keepassxc_dirs
     install_security_bins
-    setup_security_selinux
 }
 

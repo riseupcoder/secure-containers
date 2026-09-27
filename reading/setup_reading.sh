@@ -40,7 +40,7 @@ secpolicy_pdf_reader() {
     install_selinux_cil "$READING_SECPOLICY_DIR/pdf/selinux-pdf.cil"
 }
 
-setup_reading_selinux() {
+install_reading_sepolicy() {
     secpolicy_foliate
     secpolicy_pdf_reader
 }
@@ -49,6 +49,5 @@ setup_reading_environment() {
     setup_reading_images
     setup_reading_dirs
     install_reading_bins
-    setup_reading_selinux
 }
 
