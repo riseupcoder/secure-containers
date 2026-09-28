@@ -10,6 +10,8 @@ podman run --rm -it \
   -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
   -v /run/user/$(id -u)/$WAYLAND_DISPLAY:/run/user/$(id -u)/$WAYLAND_DISPLAY:ro \
   -v /media/user:/media:ro \
-  --tmpfs /home/user/.config/nnn:rw,size=16m \
+  -v $HOME/.containers/.pdf/.config/glib-2.0/settings:/home/user/.config/glib-2.0/settings:rw,Z \
+  -v "$HOME/.containers/.pdf/.config/nnn:/home/user/.config/nnn:rw,Z" \
+  -v "$HOME/.containers/.pdf/.cache:/home/user/.cache:rw,Z" \
   --userns=keep-id \
   pdf-reader nnn

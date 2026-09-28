@@ -24,6 +24,9 @@ setup_reading_images() {
 
 setup_reading_dirs() {
     mkdir -p "$CDIR/.foliate"/.{config/foliate,local/share/foliate,cache}
+
+    # pdf
+    mkdir -p "$CDIR/.pdf"/.{config/nnn,config/glib-2.0/settings,cache}
 }
 
 install_reading_bins() {

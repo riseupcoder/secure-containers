@@ -1,8 +1,10 @@
 (block selinux-pdf
     (blockinherit container)
 
-    (allow process mnt_t ( dir ( getattr open read search ))) 
+    (allow process mnt_t ( dir ( getattr open read search watch ))) 
     (allow process mnt_t ( file ( getattr open read ))) 
+
+    (dontaudit process self ( cap_userns ( sys_ptrace )))
 
     (typeattributeset wayland_client (process))
 )

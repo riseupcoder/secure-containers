@@ -2,7 +2,7 @@ FROM alpine:latest
 
 # Install essential packages
 
-RUN apk add mesa-dri-gallium nnn imv-wayland sioyek xdg-utils font-carlito
+RUN apk add mesa-dri-gallium nnn imv-wayland papers xdg-utils font-carlito
 
 # Upgrade packages
 ARG CACHE_BUST=1
@@ -20,7 +20,6 @@ RUN addgroup -g "$GID" user 2>/dev/null || true && \
 RUN mkdir -p /home/user/.config && \
     cat > /home/user/.config/mimeapps.list <<'EOF'
 [Default Applications]
-application/pdf=sioyek.desktop
 image/jpeg=imv.desktop
 image/png=imv.desktop
 image/gif=imv.desktop

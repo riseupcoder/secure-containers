@@ -20,5 +20,7 @@
 
     (typeattributeset wayland_client (process))
 
+    (dontaudit process self ( cap_userns ( sys_ptrace )))
+
     (call restrict_data_access ( foliate_data_t process restrict_foliate ))
 ) 

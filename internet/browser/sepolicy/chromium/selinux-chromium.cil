@@ -10,7 +10,7 @@
     (allow process container_file_t ( dir ( getattr open read search ))) 
     (allow process container_file_t ( file ( getattr open read ))) 
 
-    (allow process tmpfs_t (file (map)))
+    (allow process tmpfs_t (file ( map )))
 
     (allow process user_t ( unix_stream_socket ( connectto )))
 
@@ -24,7 +24,7 @@
 
     (allow user_t chromium_data_t ( lnk_file ( unlink )))
 
-    (dontaudit process self ( cap_userns ( sys_ptrace)))
+    (dontaudit process self ( cap_userns ( sys_ptrace )))
 
     (typeattributeset wayland_client (process))
 
