@@ -22,10 +22,12 @@ setup_multimedia_images() {
 }
 
 setup_mpv_dirs() {
-    mkdir -p "$CDIR/.mpv/.local/share/fonts"
+
+    mkdir -p "$CDIR/.mpv"/.{config,local/share/fonts}
 
     cp -r "$MM_DIR/config/mpv" "$CDIR/.mpv/.config"
-    cp "$CDIR/.mpv/.config/mpv/fonts/NetflixSansMedium.ttf" "$CDIR/.mpv/.local/share/fonts/"
+
+    cp "$MM_DIR/config/mpv/fonts/NetflixSansMedium.ttf" "$CDIR/.mpv/.local/share/fonts/"
 }
 
 install_mpv_bin() {
