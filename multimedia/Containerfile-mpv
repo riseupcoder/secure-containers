@@ -1,8 +1,28 @@
+# ---- Stage 1: build hardened_malloc from source ----
+FROM alpine:latest AS builder
+
+RUN apk add --no-cache git clang22 g++ make
+
+RUN git clone --depth=1 https://github.com/GrapheneOS/hardened_malloc \
+    && cd hardened_malloc \
+    && make VARIANT=default \
+    && install -m 755 out/libhardened_malloc.so /usr/lib/
+
+# ---- Stage 2: runtime ----
+
 FROM alpine:latest
+
+COPY --from=builder /usr/lib/libhardened_malloc.so /usr/lib/
 
 # Install essential packages
 RUN apk add mpv pipewire mesa-va-gallium mesa-dri-gallium \
     font-noto-emoji fontconfig
+
+# System-wide preload via ENV (applies to ALL processes in the container)
+ENV LD_PRELOAD=/usr/lib/libhardened_malloc.so
+
+# Also set in /etc/profile for interactive login shells
+RUN echo 'export LD_PRELOAD=/usr/lib/libhardened_malloc.so' >> /etc/profile
 
 # Upgrade packages
 ARG CACHE_BUST=1
