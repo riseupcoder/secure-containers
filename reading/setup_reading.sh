@@ -40,6 +40,7 @@ secpolicy_foliate() {
 }
 
 secpolicy_pdf_reader() {
+    install_selinux_policy "pdf_data" "$READING_SECPOLICY_DIR/pdf"
     install_selinux_cil "$READING_SECPOLICY_DIR/pdf/selinux-pdf.cil"
 }
 

@@ -1,10 +1,17 @@
 (block selinux-pdf
     (blockinherit container)
+    
+    ;; process
+    (allow process pdf_data_t ( dir ( add_name create getattr open read remove_name rmdir search write watch ))) 
+    (allow process pdf_data_t ( file ( append create getattr map open read rename lock setattr unlink write ))) 
 
     (allow process mnt_t ( dir ( getattr open read search watch ))) 
     (allow process mnt_t ( file ( getattr open read ))) 
 
     (dontaudit process self ( cap_userns ( sys_ptrace )))
-
+    
+    ;; wayland
     (typeattributeset wayland_client (process))
+ 
+    (call restrict_data_access ( pdf_data_t process restrict_pdf ))
 )

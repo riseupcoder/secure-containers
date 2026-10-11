@@ -26,8 +26,7 @@ setup_dev_images() {
 }
 
 setup_dev_networks() {
-    podman network create sql-network 2>/dev/null || true
-    podman network create springboot-net 2>/dev/null || true
+    podman network create springboot-net
 }
 
 setup_dev_dirs() {

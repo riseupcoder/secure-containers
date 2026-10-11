@@ -9,7 +9,8 @@ RUN microdnf update -y && \
 
 # Upgrade packages
 ARG CACHE_BUST=1
-RUN microdnf update -y && microdnf upgrade -y && microdnf clean all
+RUN microdnf update -y && \
+    microdnf upgrade -y && microdnf clean all
 
 # Create non-root user
 ARG UID=1000

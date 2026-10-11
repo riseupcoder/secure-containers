@@ -1,0 +1,4 @@
+policy_module(pdf_data, 1.0)
+
+type pdf_data_t;
+files_type(pdf_data_t)

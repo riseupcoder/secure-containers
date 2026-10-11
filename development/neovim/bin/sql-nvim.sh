@@ -1,6 +1,6 @@
 podman run --rm -it \
   --read-only \
-  --network sql-network \
+  --network springboot-net \
   --cap-drop=ALL \
   --security-opt no-new-privileges \
   -v "$HOME/.containers/.nvim-database/.config/nvim:/home/user/.config/nvim:rw,Z" \

@@ -1,17 +1,17 @@
 (block selinux-yaak
     (blockinherit container)
 
+    ;; process
     (allow process yaak_data_t ( dir ( add_name create getattr open read remove_name rmdir search setattr write watch ))) 
+
     (allow process yaak_data_t ( file ( append create getattr lock map open read rename link setattr unlink write ))) 
 
+    ;; user_t
     (allow user_t yaak_data_t ( dir ( add_name create getattr open read remove_name rmdir search setattr write ))) 
+
     (allow user_t yaak_data_t ( file ( create getattr open read rename setattr unlink write ))) 
 
-    ;; (allow process container_file_t ( dir ( getattr open read search ))) 
-    ;; (allow process container_file_t ( file ( getattr open read ))) 
-
-    (allow process tmpfs_t ( file ( map )))
-        
+    ;; network
     (allow process node_t (tcp_socket ( node_bind )))
     
     (allow process self (tcp_socket ( listen )))
@@ -27,6 +27,14 @@
 
     (allow process non_reserved_port_type (tcp_socket (name_connect)))
 
+    ;; private tmpfs
+    (type yaak_tmpfs_t)
+ 
+    (call gui_tmpfs_access ( process yaak_tmpfs_t ))
+
+    (allow process yaak_tmpfs_t ( file ( read getattr write map )))
+
+    ;; wayland
     (typeattributeset wayland_client (process))
 
     (call restrict_data_access ( yaak_data_t process restricted_yaak ))

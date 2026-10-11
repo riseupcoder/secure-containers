@@ -1,18 +1,27 @@
 (block selinux-keepassxc
     (blockinherit container)
 
+    ;; process
     (allow process keepassxc_data_t ( dir ( add_name create getattr open read remove_name rmdir search setattr write ))) 
+
     (allow process keepassxc_data_t ( file ( append create getattr lock map open read rename setattr link unlink write ))) 
 
     ;; Note: You can comment these two allow rules code from below if you want so that no user
     ;; can access your keepassxc data except your keepassxc container    
-
+    
+    ;; user_t
     (allow user_t keepassxc_data_t ( dir ( add_name create getattr open read remove_name rmdir search setattr write ))) 
 
     (allow user_t keepassxc_data_t ( file ( append create getattr map open read rename setattr link unlink write ))) 
 
-    (allow process tmpfs_t (file ( map )))
+    ;; private tmpfs_t
+    (type keepassxc_tmpfs_t)
+ 
+    (call gui_tmpfs_access ( process keepassxc_tmpfs_t ))
 
+    (allow process keepassxc_tmpfs_t ( file ( read getattr write map )))
+
+    ;; wayland
     (typeattributeset wayland_client (process))
 
     (call restrict_data_access(keepassxc_data_t process restrict_keepassxc))

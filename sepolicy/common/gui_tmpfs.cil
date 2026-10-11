@@ -1,0 +1,9 @@
+(macro gui_tmpfs_access
+    ((type app_domain)
+     (type app_tmpfs_type))
+
+    (typeattributeset wayland_client_tmpfs_type
+        (app_tmpfs_type))
+
+    (typetransition app_domain tmpfs_t file app_tmpfs_type)
+)

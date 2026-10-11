@@ -98,8 +98,9 @@ main() {
     load_environments
 
     install_selinux_cil "$ROOT_DIR/sepolicy/common/restrict_data.cil"
+    install_selinux_cil "$ROOT_DIR/sepolicy/common/gui_tmpfs.cil"
 
-    # Podman builds and other unprivileged setup work.
+    # Podman builds container images and other unprivileged setup work.
     # Run them concurrently with a limit on the number of jobs.
     run_parallel_setup
 

@@ -1,14 +1,12 @@
 (block selinux-foliate
     (blockinherit container)
 
+    ;; process
     (allow process foliate_data_t ( dir ( add_name create getattr open read remove_name rmdir search write watch ))) 
+
     (allow process foliate_data_t ( file ( append create getattr map open read rename lock setattr unlink write ))) 
 
-    ;; Note: By default no one can access foliate dir except foliate container
-    ;; No users can look at what books you read :)
-    
-    ;; If you want the user_t to access the dir and its contents uncomment ';' the below 2 lines
-
+    ;; user_t
     ;; (allow user_t foliate_data_t ( dir ( add_name create getattr open read remove_name rmdir search write watch ))) 
 
     ;; (allow user_t foliate_data_t ( file ( append create getattr map open read rename setattr unlink write ))) 
@@ -16,11 +14,17 @@
     (allow process mnt_t ( dir ( getattr open read search ))) 
     (allow process mnt_t ( file ( getattr open read ))) 
 
-    (allow process tmpfs_t (file ( map )))
-
-    (typeattributeset wayland_client (process))
-
     (dontaudit process self ( cap_userns ( sys_ptrace )))
+
+    ;; private tmpfs
+    (type foliate_tmpfs_t)
+ 
+    (call gui_tmpfs_access ( process foliate_tmpfs_t ))
+
+    (allow process foliate_tmpfs_t ( file ( read getattr write map )))
+
+    ;; wayland
+    (typeattributeset wayland_client (process))
 
     (call restrict_data_access ( foliate_data_t process restrict_foliate ))
 ) 

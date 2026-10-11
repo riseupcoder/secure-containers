@@ -1,0 +1,4 @@
+# pdf_data.fc
+HOME_DIR/.containers/.pdf(/.*)?    gen_context(user_u:object_r:pdf_data_t,s0)
+
+

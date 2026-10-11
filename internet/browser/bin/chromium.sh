@@ -9,7 +9,7 @@ podman run --rm \
   -e PULSE_SERVER=unix:/run/user/$(id -u)/pulse/native \
   -e GTK_A11Y=none \
   -v /run/user/$(id -u)/$WAYLAND_DISPLAY:/run/user/$(id -u)/$WAYLAND_DISPLAY:ro \
-  -v /run/user/$(id -u)/pulse/native:/run/user/$(id -u)/pulse/native:ro,Z \
+  -v /run/user/$(id -u)/pulse/native:/run/user/$(id -u)/pulse/native:ro \
   -v $HOME/.containers/.chromium/.cache:/home/user/.cache:rw \
   -v $HOME/.containers/.chromium/.config/chromium:/home/user/.config/chromium:rw \
   -v $HOME/.containers/.chromium/Downloads:/home/user/Downloads:rw \

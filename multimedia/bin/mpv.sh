@@ -11,7 +11,7 @@ podman run --rm -it \
   -e PULSE_SERVER=unix:/run/user/$(id -u)/pulse/native \
   -e RADV_PERFTEST=video_decode \
   -v /run/user/$(id -u)/$WAYLAND_DISPLAY:/run/user/$(id -u)/$WAYLAND_DISPLAY:ro \
-  -v /run/user/$(id -u)/pulse/native:/run/user/$(id -u)/pulse/native:ro,Z \
+  -v /run/user/$(id -u)/pulse/native:/run/user/$(id -u)/pulse/native:ro \
   -v $HOME/.containers/.mpv/.config:/home/user/.config:ro \
   -v $HOME/.containers/.mpv/.local/share:/home/user/.local/share/:ro \
   -v /media/user:/media:ro \
