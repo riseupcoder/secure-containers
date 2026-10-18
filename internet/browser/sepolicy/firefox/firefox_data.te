@@ -1,0 +1,4 @@
+policy_module(firefox_data, 1.0)
+
+type firefox_data_t;
+files_type(firefox_data_t)

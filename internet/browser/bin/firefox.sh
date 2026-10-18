@@ -1,7 +1,7 @@
 podman run --rm \
   --read-only \
   --security-opt no-new-privileges=true \
-  --security-opt label=type:container_runtime_t \
+  --security-opt label=type:selinux-firefox.process \
   --device=/dev/dri \
   --device=/dev/dri/renderD128 \
   -e XDG_RUNTIME_DIR=/run/user/$(id -u) \
@@ -9,10 +9,9 @@ podman run --rm \
   -e MOZ_ENABLE_WAYLAND=1 \
   -e PULSE_SERVER=unix:/run/user/$(id -u)/pulse/native \
   -v /run/user/$(id -u)/$WAYLAND_DISPLAY:/run/user/$(id -u)/$WAYLAND_DISPLAY:ro \
-  -v /run/user/$(id -u)/pipewire-0:/run/user/$(id -u)/pipewire-0:ro \
   -v /run/user/$(id -u)/pulse/native:/run/user/$(id -u)/pulse/native:ro \
-  -v "$HOME/.containers/.mozilla/.cache:/home/user/.cache:rw,Z" \
-  -v "$HOME/.containers/.mozilla/.config/mozilla:/home/user/.config/mozilla:rw,Z" \
-  -v "$HOME/.containers/.mozilla/Downloads:/home/user/Downloads:rw,Z" \
+  -v "$HOME/.containers/.firefox/.cache:/home/user/.cache:rw" \
+  -v "$HOME/.containers/.firefox/.config/mozilla:/home/user/.config/mozilla:rw" \
+  -v "$HOME/.containers/.firefox/Downloads:/home/user/Downloads:ro" \
   --userns=keep-id \
   mozilla firefox

@@ -18,7 +18,7 @@ ARG GID=1000
 RUN groupadd -g "$GID" user \
     && useradd -m -u "$UID" -g "$GID" user
 
-RUN printf '#!/bin/sh\necho "bwrap: setting up uid map: Permission denied" >&2\nexit 1\n' > /usr/bin/bwrap && chmod +x /usr/bin/bwrap
+# RUN printf '#!/bin/sh\necho "bwrap: setting up uid map: Permission denied" >&2\nexit 1\n' > /usr/bin/bwrap && chmod +x /usr/bin/bwrap
 
 USER user
 ENV HOME=/home/user

@@ -1,0 +1,34 @@
+(block selinux-firefox
+    (blockinherit container)
+
+    ;; process
+    (allow process firefox_data_t ( dir ( add_name create getattr open read remove_name rename rmdir search setattr write watch ))) 
+
+    (allow process firefox_data_t ( file ( append create getattr lock map open read rename setattr unlink write link ))) 
+
+    (allow process firefox_data_t ( lnk_file ( create read unlink )))
+ 
+    ;; user_t
+    (allow user_t firefox_data_t ( dir ( add_name create getattr open read remove_name rmdir search setattr write ))) 
+
+    (allow user_t firefox_data_t ( file ( append create getattr map open read rename setattr unlink write ))) 
+
+    ;; audio
+    (allow process user_tmp_t (sock_file ( write )))
+    (allow process user_t ( unix_stream_socket ( connectto )))
+  
+    ;; network
+    (allow process http_port_t ( tcp_socket ( name_connect )))
+
+    ;; private tmpfs
+    (type firefox_tmpfs_t)
+ 
+    (call gui_tmpfs_access ( process firefox_tmpfs_t ))
+
+    (allow process firefox_tmpfs_t ( file ( read getattr write map open )))
+
+    ;; wayland
+    (typeattributeset wayland_client (process))
+
+    (call restrict_data_access(firefox_data_t process restricted_firefox))
+)

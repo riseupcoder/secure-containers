@@ -25,8 +25,15 @@ setup_browser_images() {
 }
 
 setup_browser_dirs() {
+
+    # mullvad browser
     mkdir -p "$CDIR/.mullvad/.mullvad-browser"
+
+    # chromium
     mkdir -p "$CDIR/.chromium"/.{config/chromium,cache} "$CDIR/.chromium/Downloads"
+
+    # firefox 
+    # mkdir -p "$CDIR/.firefox"/.{config/mozilla,cache} "$CDIR/.firefox/Downloads"
 }
 
 install_browser_bins() {
@@ -46,9 +53,15 @@ secpolicy_mullvadbrowser() {
     install_selinux_cil "$BROWSER_SECPOLICY_DIR/mullvad-browser/selinux-mullvadbrowser.cil"
 }
 
+secpolicy_firefox() {
+    install_selinux_policy "firefox_data" "$BROWSER_SECPOLICY_DIR/firefox"
+    install_selinux_cil "$BROWSER_SECPOLICY_DIR/firefox/selinux-firefox.cil"
+}
+
 install_browser_sepolicy() {
     secpolicy_chromium
     secpolicy_mullvadbrowser
+    # secpolicy_firefox
 }
 
 setup_browser_environment() {

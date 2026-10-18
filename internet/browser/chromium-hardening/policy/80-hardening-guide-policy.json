@@ -18,7 +18,6 @@
         "cached_images_and_files",
         "autofill"
     ],
-    "ClickToCallEnabled": false,
     "CreateThemesSettings": 2,
     "DefaultBrowserSettingEnabled": false,
     "DefaultSensorsSetting": 2,
@@ -26,7 +25,7 @@
     "DevToolsGenAiSettings": 2,
     "Disable3DAPIs": true,
     "DnsOverHttpsMode": "secure",
-    "DnsOverHttpsTemplates": "https://all.dns.mullvad.net/dns-query",
+    "DnsOverHttpsTemplates": "https://dns.quad9.net/dns-query",
     "EnableMediaRouter": false,
     "ExtensionAllowedTypes": [
         "extension",
@@ -71,7 +70,6 @@
     "SafeBrowsingSurveysEnabled": false,
     "SearchContentSharingSettings": 1,
     "SearchSuggestEnabled": false,
-    "SharedClipboardEnabled": false,
     "ShoppingListEnabled": false,
     "ShowFullUrlsInAddressBar": true,
     "SitePerProcess": true,
@@ -113,6 +111,8 @@
     "RemoteAccessHostAllowRemoteSupportConnections": false,
     "RemoteAccessHostAllowUrlForwarding": false,
     "ScreenCaptureAllowed": false,
+    "AutofillGenAiSettings": 2,
+    "TryOnYouSettings": 2,
     "ChromeSuggestionsSettings": 1,
     "ThirdPartyAiChatSettings": 1,
     "VoiceTypingSettings": 2,
