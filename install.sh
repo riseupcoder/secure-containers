@@ -17,6 +17,7 @@ readonly ENVIRONMENTS=(
     "multimedia:multimedia/setup_multimedia.sh"
     "security:security/setup_security.sh"
     "productivity:productivity/setup_productivity.sh"
+    "util:utilities/setup_util.sh"
 )
 
 load_environments() {

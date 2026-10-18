@@ -1,0 +1,25 @@
+(block selinux-fuzzel
+    (blockinherit container)
+
+    ;; process
+    (allow process fuzzel_data_t ( dir ( getattr open read search ))) 
+
+    (allow process fuzzel_data_t ( file ( getattr open read ))) 
+
+    ;; user_t
+    ;; (allow user_t fuzzel_data_t ( dir ( add_name create getattr open read remove_name rmdir search setattr write ))) 
+
+    ;; (allow user_t fuzzel_data_t ( file ( append create getattr map open read rename setattr unlink write ))) 
+
+    ;; private tmpfs
+    (type fuzzel_tmpfs_t)
+ 
+    (call gui_tmpfs_access ( process fuzzel_tmpfs_t ))
+
+    (allow process fuzzel_tmpfs_t ( file ( read getattr write map open )))
+
+    ;; wayland
+    (typeattributeset wayland_client (process))
+
+    (call restrict_data_access(fuzzel_data_t process restricted_fuzzel))
+)

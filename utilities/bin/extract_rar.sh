@@ -1,4 +1,4 @@
-podman run --rm -it \
+foot -e podman run --rm -it \
   --network=none \
   --read-only \
   --cap-drop=ALL \

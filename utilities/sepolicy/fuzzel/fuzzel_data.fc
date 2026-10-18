@@ -1,0 +1,2 @@
+# fuzzel_data.fc
+HOME_DIR/.containers/.fuzzel(/.*)?    gen_context(user_u:object_r:fuzzel_data_t,s0)

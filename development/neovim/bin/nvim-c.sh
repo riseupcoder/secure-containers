@@ -1,6 +1,5 @@
-podman run --rm -it \
+foot -e podman run --rm -it \
   --read-only \
-  --network=none \
   --cap-drop=ALL \
   --security-opt no-new-privileges \
   -v "$HOME/.containers/.nvim-c/.config/nvim:/home/user/.config/nvim:rw,Z" \

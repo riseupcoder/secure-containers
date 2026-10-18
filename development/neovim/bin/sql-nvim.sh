@@ -1,4 +1,4 @@
-podman run --rm -it \
+foot -e podman run --rm -it \
   --read-only \
   --network springboot-net \
   --cap-drop=ALL \

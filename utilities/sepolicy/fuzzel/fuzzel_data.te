@@ -1,0 +1,4 @@
+policy_module(fuzzel_data, 1.0)
+
+type fuzzel_data_t;
+files_type(fuzzel_data_t)

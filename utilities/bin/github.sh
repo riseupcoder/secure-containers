@@ -1,4 +1,4 @@
-podman run --rm -it \
+foot -e podman run --rm -it \
   --read-only \
   --cap-drop=ALL \
   --security-opt no-new-privileges \
