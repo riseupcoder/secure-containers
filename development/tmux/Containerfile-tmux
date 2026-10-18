@@ -1,0 +1,29 @@
+FROM fedora-minimal:latest
+
+RUN echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
+
+# Use microdnf for base packages
+RUN microdnf update -y && \
+    microdnf install -y tmux java-latest-openjdk-devel && \
+    microdnf clean all
+
+RUN microdnf install -y ncurses
+
+# Upgrade packages
+ARG CACHE_BUST=1
+RUN microdnf update -y && \
+    microdnf upgrade -y && \
+    microdnf clean all
+
+# Create non-root user
+ARG UID=1000
+ARG GID=1000
+
+RUN groupadd -g "$GID" user \
+    && useradd -m -u "$UID" -g "$GID" user
+
+# Switch to user
+USER user
+WORKDIR /home/user
+
+ENTRYPOINT ["/home/user/.local/bin/project-picker.sh"]   

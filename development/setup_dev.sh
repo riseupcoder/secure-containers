@@ -9,6 +9,8 @@ readonly CONTAINER_IMAGES=(
     "$DEV_DIR/yaak/Containerfile-tester:tester"
     "$DEV_DIR/neovim/Containerfile-database:nvim-database"
     "$DEV_DIR/neovim/Containerfile-c:nvim-c"
+    "$DEV_DIR/neovim/Containerfile-springboot:nvim-spring"
+    "$DEV_DIR/tmux/Containerfile-tmux:tmux-container"
 )
 
 setup_dev_images() {
@@ -30,25 +32,50 @@ setup_dev_networks() {
 }
 
 setup_dev_dirs() {
+
     # jetbrains
     mkdir -p "$IDEA_DIR"/.{config,cache,local,java,m2,jdks,gradle} "$IDEA_DIR/projects"
 
+    # tester
     mkdir -p "$CDIR/.yaak"/.{config/app.yaak.desktop,cache,local/share} "$CDIR/.yaak/files"
 
     # neovim
     mkdir -p "$CDIR/.nvim-database"/.{cache,local,config} "$CDIR/.nvim-database/sql"
     mkdir -p "$CDIR/.nvim-c"/.{cache,local,config} "$CDIR/.nvim-c/projects"
+
+    # tmux
+    mkdir -p "$CDIR/.tmux"/.{cache,local/bin,m2,gradle,config/tmux}
+
+    # springboot neovim
+    mkdir -p "$CDIR/.nvim-spring"/.{cache,local/share/java/jdtls,config,m2,gradle,models} "$CDIR/.nvim-spring/projects"
+    
 }
 
 install_dev_bins() {
     install -m 700 "$DEV_DIR/neovim/bin/sql-nvim.sh" "$LOCAL_BIN"
     install -m 700 "$DEV_DIR/neovim/bin/nvim-c.sh" "$LOCAL_BIN"
+    install -m 700 "$DEV_DIR/neovim/bin/springboot-nvim.sh" "$LOCAL_BIN"
     install -m 700 "$DEV_DIR/jetbrains/bin/idea.sh" "$LOCAL_BIN"
     install -m 700 "$DEV_DIR/yaak/bin/tester.sh" "$LOCAL_BIN"
+    install -m 700 "$DEV_DIR/tmux/bin/tmux-container.sh" "$LOCAL_BIN"
 }
 
 setup_dev_config() {
+
+    # intellij idea
     install -m 400 "$DEV_DIR/jetbrains/config/ideavimrc" "$IDEA_DIR/.ideavimrc"
+
+    # tmux
+    install -m 400 "$DEV_DIR/tmux/config/tmux.conf" "$CDIR/.tmux/.config/tmux"
+
+    echo "org.gradle.jvmargs=-Xmx512m -XX:MaxMetaspaceSize=128m" | tee "$CDIR/.tmux/.gradle/gradle.properties"
+
+    install -m 700 "$DEV_DIR/tmux/bin/project-picker.sh" "$CDIR/.tmux/.local/bin/"
+    install -m 700 "$DEV_DIR/tmux/bin/run-service.sh" "$CDIR/.tmux/.local/bin/"
+    install -m 700 "$DEV_DIR/tmux/bin/spring-dev.sh" "$CDIR/.tmux/.local/bin/"
+
+    # nvim spring
+    echo "org.gradle.jvmargs=-Xmx512m -XX:MaxMetaspaceSize=128m" | tee "$CDIR/.nvim-spring/.gradle/gradle.properties"
 }
 
 secpolicy_idea() {

@@ -5,7 +5,7 @@ RUN echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
 # Use microdnf for base packages
 RUN microdnf update -y && \
     microdnf install -y neovim git curl ripgrep \
-        java-latest-openjdk-devel tar gzip && \
+        java-latest-openjdk-devel unzip && \
     microdnf clean all
 
 # Upgrade packages

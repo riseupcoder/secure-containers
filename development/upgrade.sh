@@ -8,6 +8,9 @@ CONTAINER_IMAGES=(
     "$DEV_DIR/jetbrains/Containerfile-idea:idea"
     "$DEV_DIR/yaak/Containerfile-tester:tester"
     "$DEV_DIR/neovim/Containerfile-database:nvim-database"
+    "$DEV_DIR/neovim/Containerfile-c:nvim-c"
+    "$DEV_DIR/neovim/Containerfile-springboot:nvim-spring"
+    "$DEV_DIR/tmux/Containerfile-tmux:tmux-container"
 )
 
 for image in "${CONTAINER_IMAGES[@]}"; do
