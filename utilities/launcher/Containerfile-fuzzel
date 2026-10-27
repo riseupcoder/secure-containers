@@ -1,25 +1,20 @@
-FROM fedora-minimal:latest
-
-RUN echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
+FROM alpine:latest
 
 # Install essential packages
-RUN microdnf update -y \
-    && microdnf install -y fuzzel jetbrains-mono-fonts \ 
-    && microdnf clean all
+RUN apk add fuzzel font-jetbrains-mono fontconfig
 
 # Upgrade packages
 ARG CACHE_BUST=1
-RUN microdnf update -y \
-    && microdnf upgrade -y \
-    && microdnf clean all
+RUN apk upgrade
+
+RUN fc-cache -fv
 
 # Create non-root user
 ARG UID=1000
 ARG GID=1000
 
-RUN groupadd -g "$GID" user \
-    && useradd -m -u "$UID" -g "$GID" user
+RUN addgroup -g "$GID" user 2>/dev/null || true && \
+    adduser -u "$UID" -g "$GID" -D -S -h /home/user user
 
 USER user
-ENV HOME=/home/user
 WORKDIR /home/user

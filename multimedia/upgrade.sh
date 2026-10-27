@@ -2,13 +2,13 @@
 
 set -euo pipefail
 
-readonly MM_DIR="$PWD/multimedia"
+readonly MM_DIR="$ROOT_DIR/multimedia"
 
-CONTAINER_IMAGES=(
+readonly MM_IMAGES=(
     "$MM_DIR/Containerfile-mpv:mpv"
 )
 
-for image in "${CONTAINER_IMAGES[@]}"; do
+for image in "${MM_IMAGES[@]}"; do
     IFS=":" read -r file tag <<< "$image"
 
     echo "Building $tag image"

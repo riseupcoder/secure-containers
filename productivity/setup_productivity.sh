@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-readonly PRODUCTIVITY_DIR="$PWD/productivity"
+readonly PRODUCTIVITY_DIR="$ROOT_DIR/productivity"
 readonly PRODUCTIVITY_SECPOLICY_DIR="$PRODUCTIVITY_DIR/sepolicy"
 
 readonly PRODUCTIVITY_IMAGES=(

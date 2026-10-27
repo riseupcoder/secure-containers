@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-readonly READING_DIR="$PWD/reading"
+readonly READING_DIR="$ROOT_DIR/reading"
 readonly READING_SECPOLICY_DIR="$READING_DIR/sepolicy"
 
 readonly READING_IMAGES=(

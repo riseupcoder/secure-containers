@@ -7,7 +7,7 @@ RUN microdnf update -y && \
     microdnf install -y \
         mesa-dri-drivers mesa-vulkan-drivers mesa-libEGL mesa-libgbm \
         e2fsprogs libwayland-cursor libwayland-client libwayland-egl \
-        libxkbcommon fontconfig freetype git && \
+        libxkbcommon fontconfig freetype git vi && \
     microdnf clean all
 
 # Upgrade packages

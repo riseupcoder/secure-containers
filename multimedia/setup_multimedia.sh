@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-readonly MM_DIR="$PWD/multimedia"
+readonly MM_DIR="$ROOT_DIR/multimedia"
 readonly MM_SECPOLICY_DIR="$MM_DIR/sepolicy"
 
 readonly MM_IMAGES=(

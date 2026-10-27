@@ -7,6 +7,8 @@ podman run --rm \
   --security-opt label=type:selinux-yaak.process \
   --device=/dev/dri \
   --device=/dev/dri/renderD128 \
+  --cpus 4 \
+  --memory 4G \
   -e XDG_RUNTIME_DIR=/run/user/$(id -u) \
   -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
   -v /run/user/$(id -u)/$WAYLAND_DISPLAY:/run/user/$(id -u)/$WAYLAND_DISPLAY:ro \

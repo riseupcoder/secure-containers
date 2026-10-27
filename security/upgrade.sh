@@ -2,13 +2,13 @@
 
 set -euo pipefail
 
-readonly SEC_DIR="$PWD/security" 
+readonly SECURITY_DIR="$ROOT_DIR/security"
 
-CONTAINER_IMAGES=(
-    "$SEC_DIR/Containerfile-keepassxc:keepass"
+readonly SECURITY_IMAGES=(
+    "$SECURITY_DIR/Containerfile-keepassxc:keepass"
 )
 
-for image in "${CONTAINER_IMAGES[@]}"; do
+for image in "${SECURITY_IMAGES[@]}"; do
     IFS=":" read -r file tag <<< "$image"
 
     echo "Building $tag image"

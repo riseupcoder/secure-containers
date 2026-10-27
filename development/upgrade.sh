@@ -2,18 +2,18 @@
 
 set -euo pipefail
 
-readonly DEV_DIR="$PWD/development"
+readonly DEV_DIR="$ROOT_DIR/development"
 
-CONTAINER_IMAGES=(
+readonly DEV_IMAGES=(
     "$DEV_DIR/jetbrains/Containerfile-idea:idea"
     "$DEV_DIR/yaak/Containerfile-tester:tester"
     "$DEV_DIR/neovim/Containerfile-database:nvim-database"
     "$DEV_DIR/neovim/Containerfile-c:nvim-c"
-    "$DEV_DIR/neovim/Containerfile-springboot:nvim-spring"
-    "$DEV_DIR/tmux/Containerfile-tmux:tmux-container"
+#    "$DEV_DIR/neovim/Containerfile-springboot:nvim-spring"
+#    "$DEV_DIR/tmux/Containerfile-tmux:tmux-container"
 )
 
-for image in "${CONTAINER_IMAGES[@]}"; do
+for image in "${DEV_IMAGES[@]}"; do
     IFS=":" read -r file tag <<< "$image"
 
     echo "Building $tag image"

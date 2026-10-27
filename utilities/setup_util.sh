@@ -2,11 +2,10 @@
 
 set -euo pipefail
 
-readonly LOCAL_BIN="$HOME/.local/bin/"
-readonly CDIR="$HOME/.containers" 
-readonly MISC_DIR="$PWD/utilities"
+readonly MISC_DIR="$ROOT_DIR/utilities"
+readonly MISC_SEC_DIR="$MISC_DIR/sepolicy"
 
-readonly CONTAINER_IMAGES=(
+readonly MISC_IMAGES=(
     "$MISC_DIR/launcher/Containerfile-fuzzel:fuzzel"
     "$MISC_DIR/git/Containerfile-git:github"
 #    "$MISC_DIR/rar/Containerfile-rar:extract-rar"
@@ -14,7 +13,7 @@ readonly CONTAINER_IMAGES=(
 
 setup_util_images() {
 
-    for image in "${CONTAINER_IMAGES[@]}"; do
+    for image in "${MISC_IMAGES[@]}"; do
         IFS=":" read -r file tag <<< "$image"
 
         echo "Building $tag image"
@@ -46,8 +45,8 @@ install_util_bins() {
 }
 
 secpolicy_fuzzel() {
-    install_selinux_policy "fuzzel_data" "$MISC_DIR/sepolicy/fuzzel"
-    install_selinux_cil "$MISC_DIR/sepolicy/fuzzel/selinux-fuzzel.cil"
+    install_selinux_policy "fuzzel_data" "$MISC_SEC_DIR/fuzzel"
+    install_selinux_cil "$MISC_SEC_DIR/fuzzel/selinux-fuzzel.cil"
 }
 
 install_util_sepolicy() {

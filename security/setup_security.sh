@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-readonly SECURITY_DIR="$PWD/security"
+readonly SECURITY_DIR="$ROOT_DIR/security"
 readonly SECURITY_SECPOLICY_DIR="$SECURITY_DIR/sepolicy"
 
 readonly SECURITY_IMAGES=(

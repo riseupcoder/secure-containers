@@ -11,6 +11,8 @@ podman run --rm \
   -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
   -v /run/user/$(id -u)/$WAYLAND_DISPLAY:/run/user/$(id -u)/$WAYLAND_DISPLAY:ro \
   -v $HOME/.containers/.idea/idea:/home/user/idea:ro \
+  -v $HOME/.containers/.idea/.ssh:/home/user/.ssh:rw \
+  -v $HOME/.containers/.idea/.gitconfig:/home/user/.gitconfig:rw \
   -v $HOME/.containers/.idea/.config:/home/user/.config:rw \
   -v $HOME/.containers/.idea/.cache:/home/user/.cache:rw \
   -v $HOME/.containers/.idea/.local:/home/user/.local:rw \
@@ -20,6 +22,6 @@ podman run --rm \
   -v $HOME/.containers/.idea/.gradle:/home/user/.gradle:rw \
   -v $HOME/.containers/.idea/.jdks:/home/user/.jdks:rw \
   -v $HOME/.containers/.idea/.ideavimrc:/home/user/.ideavimrc:ro \
-  --shm-size=1g \
+  --shm-size=2g \
   --userns=keep-id \
   idea

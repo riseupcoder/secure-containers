@@ -2,13 +2,13 @@
 
 set -euo pipefail
 
-readonly MM_DIR="$PWD/productivity"
+readonly PRODUCTIVITY_DIR="$ROOT_DIR/productivity"
 
-readonly CONTAINER_IMAGES=(
+readonly PRODUCTIVITY_IMAGES=(
     "$PRODUCTIVITY_DIR/Containerfile-superproductivity:superproductivity"
 )
 
-for image in "${CONTAINER_IMAGES[@]}"; do
+for image in "${PRODUCTIVITY_IMAGES[@]}"; do
     IFS=":" read -r file tag <<< "$image"
 
     echo "Building $tag image"

@@ -2,14 +2,14 @@
 
 set -euo pipefail
 
-readonly DOC_DIR="$PWD/reading"
+readonly READING_DIR="$ROOT_DIR/reading"
 
-CONTAINER_IMAGES=(
-    "$DOC_DIR/Containerfile-ebook:ebook"
-    "$DOC_DIR/Containerfile-pdf:pdf-reader"
+readonly READING_IMAGES=(
+    "$READING_DIR/Containerfile-ebook:ebook"
+    "$READING_DIR/Containerfile-pdf:pdf-reader"
 )
 
-for image in "${CONTAINER_IMAGES[@]}"; do
+for image in "${READING_IMAGES[@]}"; do
     IFS=":" read -r file tag <<< "$image"
 
     echo "Building $tag image"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-readonly BROWSER_DIR="$PWD/internet/browser"
+readonly BROWSER_DIR="$ROOT_DIR/internet/browser"
 readonly BROWSER_SECPOLICY_DIR="$BROWSER_DIR/sepolicy"
 
 readonly BROWSER_IMAGES=(

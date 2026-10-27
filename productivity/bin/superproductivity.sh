@@ -6,6 +6,8 @@ podman run --rm \
   --security-opt no-new-privileges \
   --device=/dev/dri \
   --device=/dev/dri/renderD128 \
+  --cpus 2 \
+  --memory 1G \
   -e XDG_RUNTIME_DIR=/run/user/$(id -u) \
   -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
   -e PULSE_SERVER=unix:/run/user/$(id -u)/pulse/native \
