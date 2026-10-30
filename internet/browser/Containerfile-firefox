@@ -4,7 +4,7 @@ RUN echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
 
 # Install essential packages
 RUN microdnf update -y && \
-    microdnf install -y libavcodec-free mesa-dri-drivers pipewire mesa-libEGL firefox && \ 
+    microdnf install -y libavcodec-free mesa-dri-drivers mesa-vulkan-drivers pipewire mesa-libEGL firefox && \ 
     microdnf clean all
 
 # Upgrade packages
