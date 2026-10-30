@@ -11,12 +11,12 @@ source "$ROOT_DIR/lib/selinux.sh"
 
 readonly ENVIRONMENTS=(
     "reading:reading/setup_reading.sh"
-    "dev:dev/setup_dev.sh"
-    "browser:browser/setup_browser.sh"
+    "dev:development/setup_dev.sh"
+    "browser:internet/browser/setup_browser.sh"
     "multimedia:multimedia/setup_multimedia.sh"
     "security:security/setup_security.sh"
     "productivity:productivity/setup_productivity.sh"
-    "util:util/setup_util.sh"
+    "util:utilities/setup_util.sh"
 )
 
 declare -A JOBS=()
@@ -75,7 +75,8 @@ run_parallel_setup() {
 
         info "Starting $environment"
 
-        "$function" >"$LOG_DIR/$environment.log" 2>&1 &
+        # "$function" >"$LOG_DIR/$environment.log" 2>&1 &
+        "$function" &
         pid=$!
         JOBS["$pid"]="$environment"
 
@@ -108,7 +109,7 @@ install_environment_sepolicy() {
 
 main() {
 
-    mkdir -p -- "$HOME/.local/bin"
+    mkdir -p "$HOME/.local/bin"
 
     doas dnf install -y selinux-policy-devel udica
 

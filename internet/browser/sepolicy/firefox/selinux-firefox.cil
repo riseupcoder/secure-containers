@@ -20,9 +20,14 @@
     ;; network
     (allow process http_port_t ( tcp_socket ( name_connect )))
 
+    (dontaudit process self ( netlink_route_socket ( nlmsg_write )))
+
     ;; private tmpfs
     (type firefox_tmpfs_t)
- 
+
+    ;; ptrace
+    (dontaudit process self ( cap_userns ( sys_ptrace )))
+
     (call gui_tmpfs_access ( process firefox_tmpfs_t ))
 
     (allow process firefox_tmpfs_t ( file ( read getattr write map open )))
